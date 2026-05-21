@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+/* Global adjustments style */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Offset for sticky nav */
+}
+
+body {
+  font-family: var(--font-sans);
+  transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #0f1014;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* Glassmorphic elements */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.03);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.45); /* slate-900 with transparency */
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass-nav {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Custom card layout patterns */
+.neon-glow-primary {
+  box-shadow: 0 0 30px -5px rgba(99, 102, 241, 0.2);
+}
+
+.neon-glow-pink {
+  box-shadow: 0 0 30px -5px rgba(236, 72, 153, 0.2);
+}
+
+/* Animated custom gradient mesh backgrounds */
+.hero-gradient-mesh {
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(236, 72, 153, 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
+}
+
+.dark .hero-gradient-mesh {
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(59, 130, 246, 0.08) 0px, transparent 50%);
+}
+
+/* Animation utilities for Typing cursors */
+@keyframes blink {
+  50% { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 0.8s step-end infinite;
+}
+
+/* Custom cursor tracker */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #6366f1;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+
+/* Timeline vertical line drawing */
+.timeline-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(180deg, #6366f1, #ec4899);
+  transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+  .timeline-line::before {
+    left: 16px;
+    transform: none;
+  }
+}

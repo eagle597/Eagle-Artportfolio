@@ -1,0 +1,6 @@
+{
+  "name": "EAGLE ART Portfolio",
+  "description": "A high-end, futuristic portfolio for a full-stack software developer, designed with premium Apple- and Stripe-style aesthetics, motion animations, and interactive dark/light modes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
