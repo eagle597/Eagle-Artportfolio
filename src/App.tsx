@@ -15,6 +15,7 @@ import { Projects } from "./components/Projects";
 import { Services } from "./components/Services";
 import { Experience } from "./components/Experience";
 import { Testimonials } from "./components/Testimonials";
+import { Family } from "./components/Family";
 import { KigaliMap } from "./components/KigaliMap";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
@@ -74,6 +75,7 @@ export default function App() {
               <Services />
               <Experience />
               <Testimonials />
+              <Family />
               <KigaliMap />
               <Contact />
             </main>

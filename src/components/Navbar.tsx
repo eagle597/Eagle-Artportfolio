@@ -8,6 +8,8 @@ import { useTheme } from "./ThemeContext";
 import { Menu, X, Sun, Moon, Terminal, Github, Linkedin } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { SOCIAL_LINKS } from "../data";
+// @ts-ignore
+import eagleLogo from "../assets/images/eagle_logo_1779694178606.png";
 
 interface NavLink {
   label: string;
@@ -21,6 +23,7 @@ const NAV_LINKS: NavLink[] = [
   { label: "Projects", href: "#projects" },
   { label: "Services", href: "#services" },
   { label: "Experience", href: "#experience" },
+  { label: "Family", href: "#family" },
   { label: "Location", href: "#location" },
   { label: "Contact", href: "#contact" }
 ];
@@ -90,9 +93,13 @@ export const Navbar: React.FC = () => {
             onClick={(e) => handleLinkClick(e, "#hero")}
             className="flex items-center space-x-2 text-xl font-heading font-bold font-display text-gray-900 dark:text-white group"
           >
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-600 to-pink-500 text-white font-extrabold text-sm tracking-tighter shadow-md shadow-indigo-500/20 group-hover:scale-110 transition-transform duration-200">
-              EA
-              <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-200" />
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-600 to-pink-500 overflow-hidden shadow-md shadow-indigo-500/20 group-hover:scale-110 transition-transform duration-200 border border-slate-200/20">
+              <img
+                src={eagleLogo}
+                alt="EAGLE ART"
+                className="h-full w-full object-cover"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <span className="tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 font-black text-base md:text-lg">
               EAGLE ART<span className="text-indigo-500 font-extrabold">.</span>

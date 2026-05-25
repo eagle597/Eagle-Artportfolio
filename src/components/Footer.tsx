@@ -6,6 +6,8 @@
 import React from "react";
 import { SOCIAL_LINKS } from "../data";
 import { Github, Linkedin, Twitter, ArrowUp, Terminal } from "lucide-react";
+// @ts-ignore
+import eagleLogo from "../assets/images/eagle_logo_1779694178606.png";
 
 export const Footer: React.FC = () => {
   const scrollUp = () => {
@@ -32,8 +34,13 @@ export const Footer: React.FC = () => {
               onClick={(e) => handleLinkClick(e, "#hero")}
               className="flex items-center space-x-2 text-xl font-heading font-bold"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-600 to-pink-500 text-white font-extrabold text-[11px] min-h-[36px] min-w-[36px] shadow-sm">
-                EA
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-600 to-pink-500 overflow-hidden text-white font-extrabold text-[11px] min-h-[36px] min-w-[36px] shadow-sm border border-slate-200/20">
+                <img
+                  src={eagleLogo}
+                  alt="EAGLE ART"
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <span className="tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 font-extrabold text-lg">
                 EAGLE ART<span className="text-indigo-500 font-extrabold">.</span>
@@ -57,6 +64,9 @@ export const Footer: React.FC = () => {
             </a>
             <a href="#experience" onClick={(e) => handleLinkClick(e, "#experience")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
               Experience
+            </a>
+            <a href="#family" onClick={(e) => handleLinkClick(e, "#family")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
+              Family
             </a>
             <a href="#contact" onClick={(e) => handleLinkClick(e, "#contact")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
               Contact

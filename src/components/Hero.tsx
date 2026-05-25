@@ -8,7 +8,7 @@ import { SOCIAL_LINKS } from "../data";
 import { Github, Linkedin, Twitter, ArrowRight, Download, Atom, Database, Shield, Code, AppWindow } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 // @ts-ignore
-import avatarImg from "../assets/images/developer_avatar_1779382782575.png";
+import eagleLogo from "../assets/images/eagle_logo_1779694178606.png";
 
 const TYPING_WORDS = ["Full Stack Software Developer", "Creative Web Developer", "Modern UI/UX Engineer", "Custom Cloud Architect"];
 
@@ -262,12 +262,12 @@ export const Hero: React.FC = () => {
             {/* Pulsing behind glow */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-indigo-500/20 via-purple-500/10 to-pink-500/20 blur-2xl animate-pulse" />
 
-            {/* Main Image Frame with Apple-like border styling */}
-            <div className="absolute inset-2 rounded-full overflow-hidden border-2 border-indigo-500/20 dark:border-indigo-400/20 bg-gray-100 dark:bg-gray-900 group shadow-2xl">
+            {/* Main Identity Emblem Frame with Futuristic Glowing border styling */}
+            <div className="absolute inset-2 rounded-3xl overflow-hidden border border-indigo-500/30 dark:border-indigo-500/40 bg-slate-900/80 group shadow-3xl hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all duration-500">
               <img
-                src={avatarImg}
-                alt="NDAYISHIMIYE Jean de Dieu"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                src={eagleLogo}
+                alt="EAGLE ART Brand Identity Logo"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 select-none"
                 referrerPolicy="no-referrer"
               />
             </div>
