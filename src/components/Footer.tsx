@@ -5,11 +5,14 @@
 
 import React from "react";
 import { SOCIAL_LINKS } from "../data";
+import { useLanguage } from "./LanguageContext";
 import { Github, Linkedin, Twitter, ArrowUp, Terminal } from "lucide-react";
 // @ts-ignore
 import eagleLogo from "../assets/images/eagle_logo_1779694178606.png";
 
 export const Footer: React.FC = () => {
+  const { t } = useLanguage();
+
   const scrollUp = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -47,29 +50,29 @@ export const Footer: React.FC = () => {
               </span>
             </a>
             <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs">
-              Designing premium frontend solutions linked with robust databases and highly performant backend architectures.
+              {t("services.desc")}
             </p>
           </div>
 
           {/* Quick links Col */}
           <div className="md:col-span-5 flex flex-wrap gap-x-6 gap-y-3 justify-start md:justify-center">
             <a href="#about" onClick={(e) => handleLinkClick(e, "#about")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
-              About
+              {t("nav.about")}
             </a>
             <a href="#skills" onClick={(e) => handleLinkClick(e, "#skills")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
-              Skills
+              {t("nav.skills")}
             </a>
             <a href="#projects" onClick={(e) => handleLinkClick(e, "#projects")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
-              Projects
+              {t("nav.projects")}
             </a>
             <a href="#experience" onClick={(e) => handleLinkClick(e, "#experience")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
-              Experience
+              {t("nav.experience")}
             </a>
             <a href="#family" onClick={(e) => handleLinkClick(e, "#family")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
-              Family
+              {t("nav.family")}
             </a>
             <a href="#contact" onClick={(e) => handleLinkClick(e, "#contact")} className="text-sm font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white transition-colors">
-              Contact
+              {t("nav.contact")}
             </a>
           </div>
 
@@ -133,10 +136,10 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8">
           <div className="flex flex-col space-y-1 text-center md:text-left">
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-              Let’s connect and build something amazing 🚀
+              {t("footer.connect")}
             </p>
             <span className="text-xs text-gray-400 dark:text-[#a1a1aa] font-mono">
-              &copy; 2026 NDAYISHIMIYE Jean de Dieu. Designed and Developed by <span className="text-indigo-500 font-bold">EAGLE ART</span>.
+              &copy; 2026 NDAYISHIMIYE Jean de Dieu. {t("footer.copyright")} <span className="text-indigo-500 font-bold">EAGLE ART</span>.
             </span>
           </div>
 

@@ -5,6 +5,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { SKILLS } from "../data";
+import { useLanguage } from "./LanguageContext";
 import { Skill } from "../types";
 import { Sparkles, Terminal, Cpu, Database, Command, Star } from "lucide-react";
 import { motion, useInView } from "motion/react";
@@ -38,11 +39,25 @@ const IconMapper: React.FC<{ name: string; size?: number; className?: string }> 
 };
 
 export const Skills: React.FC = () => {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<"All" | "Frontend" | "Backend" | "Tools & Devops">("All");
   const filteredSkills = activeTab === "All" ? SKILLS : SKILLS.filter((s) => s.category === activeTab);
 
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
+
+  const getTabLabel = (tab: string) => {
+    if (language === "rw") {
+      switch (tab) {
+        case "All": return "Byose";
+        case "Frontend": return "Uburyo bw'Imbere";
+        case "Backend": return "Uburyo bw'Inyuma";
+        case "Tools & Devops": return "Ibikoresho";
+        default: return tab;
+      }
+    }
+    return tab;
+  };
 
   return (
     <section id="skills" className="py-24 bg-transparent transition-colors duration-300 relative">
@@ -57,7 +72,7 @@ export const Skills: React.FC = () => {
             viewport={{ once: true }}
           >
             <Sparkles size={12} />
-            <span>EXPERT CAPABILITIES</span>
+            <span>{t("skills.badge")}</span>
           </motion.div>
  
           <motion.h2
@@ -67,7 +82,7 @@ export const Skills: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Deep Technical Stack
+            {t("skills.title")}
           </motion.h2>
           <motion.p
             className="text-gray-500 dark:text-gray-400 max-w-lg text-sm md:text-base"
@@ -76,11 +91,11 @@ export const Skills: React.FC = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Durable full-stack knowledge optimized in modern framework systems, reliable database layers, and deployment automations.
+            {t("skills.desc")}
           </motion.p>
  
           {/* Filtering Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-xl border border-slate-200/40 dark:border-white/5 bg-white/30 dark:bg-slate-900/40 backdrop-blur-md max-w-md mt-6 select-none">
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-xl border border-slate-200/40 dark:border-white/5 bg-white/30 dark:bg-slate-900/40 backdrop-blur-md max-w-lg mt-6 select-none">
             {(["All", "Frontend", "Backend", "Tools & Devops"] as const).map((tab) => (
               <button
                 key={tab}
@@ -91,7 +106,7 @@ export const Skills: React.FC = () => {
                     : "text-slate-500 hover:text-slate-800 dark:text-[#8a919e] dark:hover:text-white"
                 }`}
               >
-                {tab}
+                {getTabLabel(tab)}
               </button>
             ))}
           </div>

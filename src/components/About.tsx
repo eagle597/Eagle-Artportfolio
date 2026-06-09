@@ -4,7 +4,8 @@
  */
 
 import React, { useEffect, useState, useRef } from "react";
-import { STATS, DEV_BIO } from "../data";
+import { STATS } from "../data";
+import { useLanguage } from "./LanguageContext";
 import { Sparkles, Trophy, Zap, ShieldAlert } from "lucide-react";
 import { motion, useInView } from "motion/react";
 
@@ -61,6 +62,18 @@ const AnimatedCounter: React.FC<CounterProps> = ({ value, suffix }) => {
 };
 
 export const About: React.FC = () => {
+  const { t } = useLanguage();
+
+  const getStatTranslationKey = (label: string) => {
+    switch (label) {
+      case "Years Experience": return "about.xp";
+      case "Completed Projects": return "about.done";
+      case "Global Clients": return "about.clients";
+      case "Code Commits": return "about.commits";
+      default: return label;
+    }
+  };
+
   return (
     <section
       id="about"
@@ -73,13 +86,13 @@ export const About: React.FC = () => {
           <div className="lg:col-span-6 space-y-8">
             <div className="space-y-4">
               <motion.div
-                className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-semibold"
+                className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-semibold"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
               >
                 <Sparkles size={12} />
-                <span>MEET EAGLE ART</span>
+                <span>{t("about.badge")}</span>
               </motion.div>
               
               <motion.h2
@@ -89,8 +102,12 @@ export const About: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                Merging Design Integrity <br />
-                With Robust Architecture.
+                {t("about.title").split("<br />").map((line, idx) => (
+                  <React.Fragment key={idx}>
+                    {line}
+                    {idx < t("about.title").split("<br />").length - 1 && <br />}
+                  </React.Fragment>
+                ))}
               </motion.h2>
             </div>
 
@@ -101,7 +118,7 @@ export const About: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              {DEV_BIO}
+              {t("about.bio")}
             </motion.p>
 
             {/* Statistics Banner */}
@@ -117,7 +134,7 @@ export const About: React.FC = () => {
                 >
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                   <span className="text-gray-500 dark:text-gray-400 text-xs font-semibold tracking-wider font-mono mt-1 uppercase">
-                    {stat.label}
+                    {t(getStatTranslationKey(stat.label))}
                   </span>
                 </motion.div>
               ))}
@@ -140,10 +157,10 @@ export const About: React.FC = () => {
                 <Zap size={22} />
               </div>
               <h3 className="font-heading font-bold text-lg text-gray-900 dark:text-white mb-2">
-                High Performance Core
+                {t("about.card1.title")}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                Applying advanced code splitting, lazy loading, and hardware-accelerated transforms to achieve flawless lighthouse scores. Every interaction transitions smoothly.
+                {t("about.card1.text")}
               </p>
             </motion.div>
 
@@ -160,10 +177,10 @@ export const About: React.FC = () => {
                 <Trophy size={20} />
               </div>
               <h4 className="font-heading font-bold text-base text-gray-900 dark:text-white mb-2">
-                Staggering UX Detail
+                {t("about.card2.title")}
               </h4>
               <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                Taking design cues from legends (like Stripe and Apple). Generous gaps, comfortable margins, precise colors, and dynamic feedback.
+                {t("about.card2.text")}
               </p>
             </motion.div>
 
@@ -180,10 +197,10 @@ export const About: React.FC = () => {
                 <ShieldAlert size={20} />
               </div>
               <h4 className="font-heading font-bold text-base text-gray-900 dark:text-white mb-2">
-                Bulletproof Clean Code
+                {t("about.card3.title")}
               </h4>
               <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                TypeScript type safety, modular structures, decoupled states, and strict linting. Built for scalability first.
+                {t("about.card3.text")}
               </p>
             </motion.div>
 

@@ -5,8 +5,72 @@
 
 import React from "react";
 import { SERVICES } from "../data";
+import { useLanguage } from "./LanguageContext";
 import { Sparkles, Monitor, Server, Cpu, Layers, Webhook, Database } from "lucide-react";
 import { motion } from "motion/react";
+
+const servicesTranslations: Record<string, Record<"en" | "rw", { title: string; description: string }>> = {
+  "Frontend Development": {
+    en: {
+      title: "Frontend Development",
+      description: "Crafting visually outstanding, highly functional React interfaces with fluid, GPU-accelerated motion paths and precise responsive typography."
+    },
+    rw: {
+      title: "Iterambere Rya Mbere (Frontend)",
+      description: "Gukora imbuga zinyura ijisho, React ikoreshwa mu buryo bworoshye kandi bwihuta, ifite ibishushanyo binogeye amaso."
+    }
+  },
+  "Backend Development": {
+    en: {
+      title: "Backend Development",
+      description: "Designing durable, secure distributed server architectures with Node.js and Express to manage complex backend workflows."
+    },
+    rw: {
+      title: "Iterambere Ryo Nyuma (Backend)",
+      description: "Gushushanya n'umutekano w'imashini (servers) zihamye hifashishijwe Node.js na Express ngo biyobore amakuru yose akomeye."
+    }
+  },
+  "Full Stack Development": {
+    en: {
+      title: "Full Stack Development",
+      description: "Seamless integration of interactive frontends with scalable databases, reliable caching layers, and performant server infrastructures."
+    },
+    rw: {
+      title: "Iterambere Ryuzuye (Full Stack)",
+      description: "Guhuza imbuga z'imbere n'inyuma mu buryo bwuzuye, na databases zikomeye na servers zihuta cyane."
+    }
+  },
+  "UI/UX Design": {
+    en: {
+      title: "UI/UX Design",
+      description: "Creating premium layouts inspired by modern SaaS leaderboards and bento grids, focusing heavily on negative space and visual hierarchy."
+    },
+    rw: {
+      title: "Gushushanya Imbata (UI/UX Design)",
+      description: "Gushushanya amapaji meza ya internet yisunze bento-grids, hibandwa ku buryo amaso areba neza ubutumwa bw'ingenzi."
+    }
+  },
+  "API Development": {
+    en: {
+      title: "API Development",
+      description: "Architecting clean, type-safe RESTful and GraphQL APIs with comprehensive security policies, rate-limiting, and detailed validation."
+    },
+    rw: {
+      title: "Iterambere rya API",
+      description: "Kubaka uburyo bwa API (RESTful & GraphQL) budafite amakosa, bufite umutekano usesuye kandi bwihuta cyane."
+    }
+  },
+  "Database Design": {
+    en: {
+      title: "Database Design",
+      description: "Designing robust normalized schemas and efficient indexes for SQL and NoSQL targets to achieve sub-millisecond query execution."
+    },
+    rw: {
+      title: "Inyubako ya Database",
+      description: "Gushushanya databases (SQL & NoSQL) zifite umutekano n'urubuga runoza gushakisha amakuru mu gihe gito."
+    }
+  }
+};
 
 const ServiceIconMapper: React.FC<{ name: string; className?: string }> = ({ name, className }) => {
   switch (name) {
@@ -28,6 +92,8 @@ const ServiceIconMapper: React.FC<{ name: string; className?: string }> = ({ nam
 };
 
 export const Services: React.FC = () => {
+  const { language, t } = useLanguage();
+
   return (
     <section id="services" className="py-24 bg-transparent transition-colors duration-300 relative">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
@@ -41,7 +107,7 @@ export const Services: React.FC = () => {
             viewport={{ once: true }}
           >
             <Sparkles size={12} />
-            <span>CORE EXPERTISE</span>
+            <span>{t("services.badge")}</span>
           </motion.div>
 
           <motion.h2
@@ -51,7 +117,7 @@ export const Services: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Capabilities & Services
+            {t("services.title")}
           </motion.h2>
           <motion.p
             className="text-gray-500 dark:text-gray-400 max-w-lg text-sm md:text-base"
@@ -60,13 +126,18 @@ export const Services: React.FC = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Custom-built development models scaling with modern technical guidelines, bringing professional design paired with solid backends.
+            {t("services.desc")}
           </motion.p>
         </div>
 
         {/* Services Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {SERVICES.map((service, index) => {
+            const localized = servicesTranslations[service.title]?.[language] || {
+              title: service.title,
+              description: service.description
+            };
+
             return (
               <motion.div
                 key={service.title}
@@ -87,12 +158,12 @@ export const Services: React.FC = () => {
 
                   {/* Title */}
                   <h3 className="font-heading font-bold text-lg text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    {service.title}
+                    {localized.title}
                   </h3>
 
                   {/* Description */}
                   <p className="text-[#4b5563] dark:text-[#a1a1aa] text-sm leading-relaxed">
-                    {service.description}
+                    {localized.description}
                   </p>
                 </div>
 

@@ -5,24 +5,30 @@
 
 import React, { useEffect, useState } from "react";
 import { SOCIAL_LINKS } from "../data";
+import { useLanguage } from "./LanguageContext";
 import { Github, Linkedin, Twitter, ArrowRight, Download, Atom, Database, Shield, Code, AppWindow } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 // @ts-ignore
 import eagleLogo from "../assets/images/eagle_logo_1779694178606.png";
-
-const TYPING_WORDS = ["Full Stack Software Developer", "Creative Web Developer", "Modern UI/UX Engineer", "Custom Cloud Architect"];
+const postImage = "https://scontent.fnbo18-1.fna.fbcdn.net/v/t39.30808-6/686904006_1336795801627310_8025335128848720880_n.jpg?stp=dst-jpg_tt6&cstp=mx1040x1513&ctp=s1040x1513&_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEm7g9b8JZQM3P-XEDumlAKnOnRJX0iormc6dElfSKiuQW_Stn9zQTXh5gQg-5wQ7IzLWPFWwjAt2Xg7SaA0xZx&_nc_ohc=JZ2pqNQzQg4Q7kNvwGHxCCq&_nc_oc=Adol4m4xoN5oF_EPcszTgDfwGQHxuBhDDi71AE6bt76P35AxM3a0Vy5EFAXI3HD46Yk&_nc_zt=23&_nc_ht=scontent.fnbo18-1.fna&_nc_gid=zqygwrSDrLtoUlLpW7YwvQ&_nc_ss=7a2a8&oh=00_Af_kPo__5AY4koTYnyzm_0SKJs51olZx0Fjsy5y6clkoNw&oe=6A2DF609";
 
 export const Hero: React.FC = () => {
+  const { language, t } = useLanguage();
+  const typingWords = language === "en" 
+    ? ["Full Stack Software Developer", "Creative Web Developer", "Modern UI/UX Engineer", "Custom Cloud Architect"]
+    : ["Umunyabugeni wa UI/UX", "Umwubatsi wa Software", "Umunyakoranyabuhanga wa Cloud", "Umukanishi wa Code Isukuye"];
+
   const [wordIndex, setWordIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150);
+  const [activeTab, setActiveTab] = useState<"terminal" | "logo" | "profile">("profile");
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
     const handleTyping = () => {
-      const fullWord = TYPING_WORDS[wordIndex];
+      const fullWord = typingWords[wordIndex] || "";
       if (!isDeleting) {
         setCurrentText(fullWord.substring(0, currentText.length + 1));
         setTypingSpeed(100);
@@ -38,7 +44,7 @@ export const Hero: React.FC = () => {
 
         if (currentText === "") {
           setIsDeleting(false);
-          setWordIndex((prev) => (prev + 1) % TYPING_WORDS.length);
+          setWordIndex((prev) => (prev + 1) % typingWords.length);
           return;
         }
       }
@@ -48,7 +54,7 @@ export const Hero: React.FC = () => {
 
     timer = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timer);
-  }, [currentText, isDeleting, wordIndex, typingSpeed]);
+  }, [currentText, isDeleting, wordIndex, typingSpeed, typingWords]);
 
   const handleDownloadCV = () => {
     alert("CV Download sequence initiated. Real portfolio would serve Resume file.");
@@ -122,7 +128,7 @@ export const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.5 }}
             >
-              Helló! I'm known as <span className="font-bold relative inline-block text-gray-800 dark:text-white">
+              {t("hero.greeting")} <span className="font-bold relative inline-block text-gray-800 dark:text-white">
                 EAGLE ART
               </span>
             </motion.h4>
@@ -148,7 +154,9 @@ export const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              <span className="text-gray-500 dark:text-gray-400 font-medium">Architecting </span>
+              <span className="text-gray-500 dark:text-gray-400 font-medium">
+                {language === "en" ? "Architecting " : "Kubaka "}
+              </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400">
                 {currentText}
               </span>
@@ -163,8 +171,7 @@ export const Hero: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            I build highly scalable web structures, real-time engines, and gorgeous microfrontends.
-            Combining pixel-perfect aesthetic layouts inspired by Apple and Stripe with robust systems engineering.
+            {t("hero.bio")}
           </motion.p>
 
           {/* Buttons CTA */}
@@ -178,7 +185,7 @@ export const Hero: React.FC = () => {
               onClick={() => scrollToSection("#contact")}
               className="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/10 cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200"
             >
-              <span>Work With Me</span>
+              <span>{t("hero.touch")}</span>
               <ArrowRight size={18} />
             </button>
 
@@ -187,7 +194,7 @@ export const Hero: React.FC = () => {
               className="px-6 py-3.5 border border-slate-200/60 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white bg-white/30 dark:bg-white/5 backdrop-blur-md hover:bg-white/50 dark:hover:bg-white/10 font-semibold rounded-xl flex items-center space-x-2 cursor-pointer hover:scale-105 active:scale-95 shadow-sm transition-all duration-200"
             >
               <Download size={18} />
-              <span>Resume</span>
+              <span>{t("hero.cv")}</span>
             </button>
           </motion.div>
 
@@ -252,7 +259,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Right Developer Image Avatar Column */}
-        <div className="lg:col-span-5 flex justify-center items-center relative">
+        <div className="lg:col-span-5 flex justify-center items-center relative pb-8 md:pb-0">
           <motion.div
             className="relative h-[320px] w-[320px] md:h-[400px] md:w-[400px]"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -263,13 +270,129 @@ export const Hero: React.FC = () => {
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-indigo-500/20 via-purple-500/10 to-pink-500/20 blur-2xl animate-pulse" />
 
             {/* Main Identity Emblem Frame with Futuristic Glowing border styling */}
-            <div className="absolute inset-2 rounded-3xl overflow-hidden border border-indigo-500/30 dark:border-indigo-500/40 bg-slate-900/80 group shadow-3xl hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all duration-500">
-              <img
-                src={eagleLogo}
-                alt="EAGLE ART Brand Identity Logo"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 select-none"
-                referrerPolicy="no-referrer"
-              />
+            <div className="absolute inset-2 rounded-3xl overflow-hidden border border-indigo-500/30 dark:border-indigo-500/40 bg-[#0b0f19]/95 group shadow-3xl hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all duration-500">
+              {activeTab === "logo" ? (
+                <img
+                  src={eagleLogo}
+                  alt="EAGLE ART Brand Identity Logo"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 select-none"
+                  referrerPolicy="no-referrer"
+                />
+              ) : activeTab === "profile" ? (
+                <div className="relative w-full h-full select-none overflow-hidden bg-slate-950/90 flex items-center justify-center">
+                  {/* High-fidelity color diffusion from the photo's vibrant background */}
+                  <img
+                    src={postImage}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
+                    referrerPolicy="no-referrer"
+                  />
+                  {/* Master crisp standing photoshoot image, fully preserved with zero clipping */}
+                  <img
+                    src={postImage}
+                    alt="NDAYISHIMIYE Jean de Dieu Photoshoot"
+                    className="relative z-10 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-5 text-left z-20">
+                    <p className="text-white font-heading font-black tracking-wide text-sm md:text-base leading-none">
+                      NDAYISHIMIYE Jean de Dieu
+                    </p>
+                    <p className="text-indigo-400 font-mono text-[9px] md:text-[10px] font-bold mt-1 uppercase tracking-wider">
+                      {language === 'en' ? 'Professional Photoshoot (Eagle Art)' : 'Ibyerekeye Amafoto (Eagle Art)'}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full h-full p-4 md:p-6 text-[10px] md:text-xs font-mono text-emerald-400 flex flex-col justify-start">
+                  {/* Title controls */}
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 select-none">
+                    <div className="flex space-x-1.5 md:space-x-2">
+                      <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500/80" />
+                      <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500/80" />
+                      <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/80" />
+                    </div>
+                    <span className="text-slate-400 font-bold tracking-wide text-[9px] uppercase">
+                      post@localhost:~
+                    </span>
+                    <span className="text-slate-600 font-black text-[9px]">bash</span>
+                  </div>
+
+                  {/* Terminal simulation */}
+                  <div className="space-y-3 overflow-hidden flex-1 text-left select-none">
+                    <div className="flex items-center space-x-1.5 text-indigo-400">
+                      <span className="text-slate-500 font-bold">post@pc:~$</span>
+                      <span className="text-slate-200">neofetch</span>
+                    </div>
+
+                    <div className="grid grid-cols-12 gap-1 md:gap-3 pt-1">
+                      {/* Left: ASCII Art representing Eagle Systems */}
+                      <div className="col-span-4 text-indigo-500 font-black leading-tight text-[8px] md:text-[10px] space-y-0.5 select-none text-center">
+                        <div className="text-indigo-400">  __    __  </div>
+                        <div className="text-indigo-400"> \ \  / / </div>
+                        <div className="text-indigo-400">  \ \/ /  </div>
+                        <div className="text-indigo-500">  / /\ \  </div>
+                        <div className="text-indigo-500"> /_/__\_\ </div>
+                        <div className="text-[#a855f7] tracking-tighter text-[8px] mt-1 font-bold">EAGLE-SYS</div>
+                      </div>
+
+                      {/* Right: Specifications of PC post */}
+                      <div className="col-span-8 space-y-1 text-[9px] md:text-[11px] text-slate-300">
+                        <p><span className="text-indigo-400 font-bold">OS:</span> macOS / Linux Enterprise</p>
+                        <p><span className="text-indigo-400 font-bold">{t("hero.terminal.host").split(":")[0] || "Host"}:</span> {t("hero.terminal.host").split(":")[1] || "Local Developer Machine"}</p>
+                        <p><span className="text-indigo-400 font-bold">{t("hero.terminal.pc")}:</span> <span className="text-emerald-400 font-extrabold">"post"</span></p>
+                        <p><span className="text-indigo-400 font-bold">Kernel:</span> 2026.06.02 LTS</p>
+                        <p><span className="text-indigo-400 font-bold">{t("hero.terminal.uptime").split(":")[0] || "Uptime"}:</span> {t("hero.terminal.uptime").split(":")[1] || "100% Core Online"}</p>
+                        <p><span className="text-indigo-400 font-bold">Shell:</span> zsh (post@pc-dev)</p>
+                        <p><span className="text-slate-400 text-[8px] italic mt-1 block">{t("hero.terminal.synced")}</span></p>
+                      </div>
+                    </div>
+
+                    {/* Output active line */}
+                    <div className="pt-3 border-t border-slate-800/60 flex items-center space-x-1.5 text-[10px] md:text-xs">
+                      <span className="text-slate-500 font-bold">post@pc:~$</span>
+                      <span className="text-white animate-pulse">echo "{language === "en" ? "EAGLE ART Online" : "EAGLE ART Ari Kazi"}"▮</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Premium Tab Selector Control buttons */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex bg-slate-900/90 dark:bg-slate-950/90 border border-slate-200/20 dark:border-white/10 p-1 rounded-full text-[10px] font-semibold tracking-wide uppercase shadow-lg select-none z-20">
+              <button
+                type="button"
+                onClick={() => setActiveTab("profile")}
+                className={`px-3 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
+                  activeTab === "profile"
+                    ? "bg-indigo-600 text-white font-black"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                {language === "en" ? "Eagle Photo" : "Amafoto"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("terminal")}
+                className={`px-3 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
+                  activeTab === "terminal"
+                    ? "bg-indigo-600 text-white font-black"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                PC: post
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("logo")}
+                className={`px-3 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
+                  activeTab === "logo"
+                    ? "bg-indigo-600 text-white font-black"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                Big Logo
+              </button>
             </div>
 
             {/* Glowing orbital badges */}
@@ -281,7 +404,7 @@ export const Hero: React.FC = () => {
               <Atom size={20} className="text-[#61dafb]" />
             </motion.div>
             <motion.div
-              className="absolute bottom-8 -left-4 h-11 w-11 rounded-full bg-white dark:bg-[#12141a] flex items-center justify-center shadow-lg border border-gray-200 dark:border-gray-800"
+              className="absolute bottom-12 -left-4 h-11 w-11 rounded-full bg-white dark:bg-[#12141a] flex items-center justify-center shadow-lg border border-gray-200 dark:border-gray-800 z-10"
               animate={{ y: [0, 8, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
             >

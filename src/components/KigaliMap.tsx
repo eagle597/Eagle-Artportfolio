@@ -8,6 +8,7 @@ import { APIProvider, Map, AdvancedMarker, useAdvancedMarkerRef } from "@vis.gl/
 import { MapPin, Navigation, Send, MessageSquare, Linkedin, ExternalLink, Sparkles, AlertCircle, RefreshCw, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { SOCIAL_LINKS } from "../data";
+import { useLanguage } from "./LanguageContext";
 
 const API_KEY =
   process.env.GOOGLE_MAPS_PLATFORM_KEY ||
@@ -22,6 +23,7 @@ const KIGALI_LAT = -1.9441;
 const KIGALI_LNG = 30.0619;
 
 export const KigaliMap: React.FC = () => {
+  const { language } = useLanguage();
   const [localTime, setLocalTime] = useState("");
   const [showHowToSetup, setShowHowToSetup] = useState(!hasValidKey);
   const [customStyle, setCustomStyle] = useState<"standard" | "dark" | "silver">("dark");
@@ -101,7 +103,7 @@ export const KigaliMap: React.FC = () => {
             viewport={{ once: true }}
           >
             <Sparkles size={12} />
-            <span>GLOBAL FOOTPRINT</span>
+            <span>{language === "en" ? "GLOBAL FOOTPRINT" : "AKAZI KACU KU ISI"}</span>
           </motion.div>
 
           <motion.h2
@@ -111,7 +113,7 @@ export const KigaliMap: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Based in Kigali City, Rwanda
+            {language === "en" ? "Based in Kigali City, Rwanda" : "Tuba mu Mujyi wa Kigali, u Rwanda"}
           </motion.h2>
 
           <motion.p
@@ -121,7 +123,9 @@ export const KigaliMap: React.FC = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Operating globally from the heart of East Africa's rising technology hub. Delivering premium scalable software engineering services worldwide.
+            {language === "en"
+              ? "Operating globally from the heart of East Africa's rising technology hub. Delivering premium scalable software engineering services worldwide."
+              : "Dukorera ku rwego rw'isi duturuka mu mutima w'ikoranabuhanga riri gutera imbere muri Afurika y'Iburasirazuba. Dutanga serivisi z'ikoranabuhanga zigezweho ku isi yose."}
           </motion.p>
         </div>
 
@@ -139,8 +143,12 @@ export const KigaliMap: React.FC = () => {
             {/* Top Info Blocks */}
             <div className="space-y-6 text-left">
               <div>
-                <span className="text-xs font-mono font-bold text-indigo-500 uppercase tracking-widest block mb-1">Current Coordinates</span>
-                <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Kigali, Rwanda — 1.9441° S, 30.0619° E</span>
+                <span className="text-xs font-mono font-bold text-indigo-500 uppercase tracking-widest block mb-1">
+                  {language === "en" ? "Current Coordinates" : "Ibyerekezo Bihari"}
+                </span>
+                <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  {language === "en" ? "Kigali, Rwanda — 1.9441° S, 30.0619° E" : "Kigali, u Rwanda — 1.9441° S, 30.0619° E"}
+                </span>
               </div>
 
               <div className="space-y-4">
@@ -148,8 +156,12 @@ export const KigaliMap: React.FC = () => {
                 <div className="flex items-start space-x-3.5 p-3 rounded-xl bg-slate-500/5 border border-slate-200/20 dark:border-white/5">
                   <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse mt-2.5 flex-shrink-0" />
                   <div className="text-left">
-                    <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block">Freelancer & Remote Status</span>
-                    <span className="text-sm font-semibold text-gray-800 dark:text-white">Active & Open for Innovations</span>
+                    <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block">
+                      {language === "en" ? "Freelancer & Remote Status" : "Uburyo bwo Gukora (Remote Status)"}
+                    </span>
+                    <span className="text-sm font-semibold text-gray-800 dark:text-white">
+                      {language === "en" ? "Active & Open for Innovations" : "Niteguye Akazi & Guhimba Ibishya"}
+                    </span>
                   </div>
                 </div>
 
@@ -158,15 +170,21 @@ export const KigaliMap: React.FC = () => {
                     <MapPin size={16} />
                   </div>
                   <div className="text-left">
-                    <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block">Local Time Zone</span>
-                    <span className="text-sm font-semibold text-gray-800 dark:text-white">Central Africa Time (CAT) ─ UTC +2</span>
+                    <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block">
+                      {language === "en" ? "Local Time Zone" : "Isaha ya Gace Ndangamasaha"}
+                    </span>
+                    <span className="text-sm font-semibold text-gray-800 dark:text-white">
+                      {language === "en" ? "Central Africa Time (CAT) ─ UTC +2" : "Isaha yo muri Afurika yo Hagati (CAT) ─ UTC +2"}
+                    </span>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-3.5 p-3 rounded-xl bg-slate-500/5 border border-slate-200/20 dark:border-white/5">
                   <span className="text-lg font-mono font-semibold text-indigo-500 mt-0.5 flex-shrink-0 select-none">🕒</span>
                   <div className="text-left">
-                    <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block">Kigali Realtime clock</span>
+                    <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block">
+                      {language === "en" ? "Kigali Realtime clock" : "Isaha yo mu Kigali Iri Gukora"}
+                    </span>
                     <span className="text-lg font-bold font-mono tracking-tight text-indigo-600 dark:text-indigo-400">
                       {localTime || "00:00:00 AM"}
                     </span>
@@ -184,7 +202,7 @@ export const KigaliMap: React.FC = () => {
                 className="w-full flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold text-sm shadow-md shadow-indigo-500/10 cursor-pointer active:scale-[0.98] transition-all"
               >
                 <Navigation size={16} className="animate-pulse" />
-                <span>Get Directions on Google Maps</span>
+                <span>{language === "en" ? "Get Directions on Google Maps" : "Tugereho unyuze kuri Google Maps"}</span>
                 <ExternalLink size={12} className="opacity-70" />
               </a>
 
@@ -380,14 +398,16 @@ export const KigaliMap: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="text-sm font-heading font-black tracking-tight text-white uppercase">
-                        Kigali, Rwanda
+                        {language === "en" ? "Kigali, Rwanda" : "Kigali, u Rwanda"}
                       </h4>
                       <p className="text-[11px] text-slate-400 font-mono mt-0.5">
                         S 1° 56' 38" ⎸ E 30° 3' 42"
                       </p>
                     </div>
                     <p className="text-[11px] text-indigo-300 leading-normal border-t border-slate-800 pt-2">
-                       Vector preview. Fully interactive 3D map activates automatically upon setting your API key.
+                       {language === "en"
+                         ? "Vector preview. Fully interactive 3D map activates automatically upon setting your API key."
+                         : "Ikarita mpanabyerekezo. Ikarita ya 3D ifunguka mu buryo bwikora ukimara gushyiraho ururundi rwa API key."}
                     </p>
                   </div>
                 </motion.div>
@@ -397,7 +417,7 @@ export const KigaliMap: React.FC = () => {
                   onClick={() => setShowHowToSetup(true)}
                   className="absolute bottom-6 px-4 py-2 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 text-xs font-bold tracking-wider uppercase cursor-pointer transition-all active:scale-95 z-20"
                 >
-                  Configure Live Google Maps API
+                  {language === "en" ? "Configure Live Google Maps" : "Gushyiraho Ikarita Icyeye"}
                 </button>
               </div>
             )}

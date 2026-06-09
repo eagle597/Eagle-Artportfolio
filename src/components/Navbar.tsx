@@ -5,31 +5,34 @@
 
 import React, { useEffect, useState } from "react";
 import { useTheme } from "./ThemeContext";
-import { Menu, X, Sun, Moon, Terminal, Github, Linkedin } from "lucide-react";
+import { useLanguage } from "./LanguageContext";
+import { Menu, X, Sun, Moon, Terminal, Github, Linkedin, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { SOCIAL_LINKS } from "../data";
 // @ts-ignore
 import eagleLogo from "../assets/images/eagle_logo_1779694178606.png";
 
 interface NavLink {
-  label: string;
+  labelKey: string;
+  defaultLabel: string;
   href: string;
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Services", href: "#services" },
-  { label: "Experience", href: "#experience" },
-  { label: "Family", href: "#family" },
-  { label: "Location", href: "#location" },
-  { label: "Contact", href: "#contact" }
+  { labelKey: "nav.home", defaultLabel: "Home", href: "#hero" },
+  { labelKey: "nav.about", defaultLabel: "About", href: "#about" },
+  { labelKey: "nav.skills", defaultLabel: "Skills", href: "#skills" },
+  { labelKey: "nav.projects", defaultLabel: "Projects", href: "#projects" },
+  { labelKey: "nav.services", defaultLabel: "Services", href: "#services" },
+  { labelKey: "nav.experience", defaultLabel: "Experience", href: "#experience" },
+  { labelKey: "nav.family", defaultLabel: "Family", href: "#family" },
+  { labelKey: "nav.location", defaultLabel: "Location", href: "#location" },
+  { labelKey: "nav.contact", defaultLabel: "Contact", href: "#contact" }
 ];
 
 export const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [scrolled, setScrolled] = useState(false);
@@ -128,7 +131,7 @@ export const Navbar: React.FC = () => {
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-                  {link.label}
+                  {t(link.labelKey)}
                 </a>
               );
             })}
@@ -152,6 +155,17 @@ export const Navbar: React.FC = () => {
                 Visit my GitHub
               </span>
             </div>
+
+            {/* Premium Language Selector Switcher button - Globe with code */}
+            <button
+              onClick={toggleLanguage}
+              className="px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-amber-400 bg-white dark:bg-[#12141a]/60 flex items-center space-x-1.5 cursor-pointer transition-all duration-200 active:scale-95"
+              aria-label="Switch Language (En/Rw)"
+              title={language === "en" ? "Hindura mu Kinyarwanda" : "Switch to English"}
+            >
+              <Globe size={18} className="text-indigo-500 dark:text-indigo-400" />
+              <span className="text-xs font-mono font-bold tracking-wider">{language === "en" ? "EN" : "RW"}</span>
+            </button>
 
             {/* Theme Toggle Button */}
             <button
@@ -200,10 +214,26 @@ export const Navbar: React.FC = () => {
                           : "text-gray-500 dark:text-gray-400"
                       }`}
                     >
-                      {link.label}
+                      {t(link.labelKey)}
                     </a>
                   );
                 })}
+              </div>
+
+              {/* Language Switcher in Mobile Drawer */}
+              <div className="mt-8">
+                <button
+                  onClick={toggleLanguage}
+                  className="w-full py-3.5 px-4 rounded-xl border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-amber-400 bg-gray-50 dark:bg-[#12141a]/60 flex items-center justify-center space-x-2 transition-all duration-200"
+                >
+                  <Globe size={18} className="text-indigo-500" />
+                  <span className="text-sm font-semibold">
+                    {language === "en" ? "Change language: English" : "Hindura ururimi: Kinyarwanda"}
+                  </span>
+                  <span className="font-mono font-bold bg-indigo-100 dark:bg-indigo-950 px-2 py-0.5 rounded text-xs select-none">
+                    {language === "en" ? "EN" : "RW"}
+                  </span>
+                </button>
               </div>
 
               <div className="mt-auto">

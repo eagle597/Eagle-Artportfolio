@@ -5,11 +5,66 @@
 
 import React, { useState } from "react";
 import { PROJECTS } from "../data";
+import { useLanguage } from "./LanguageContext";
 import { Project } from "../types";
 import { ExternalLink, Github, Sparkles, FolderGit } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
+const projectsTranslations: Record<string, Record<"en" | "rw", { title: string; description: string }>> = {
+  "AI Chat Application": {
+    en: {
+      title: "AI Chat Application",
+      description: "An advanced real-time AI assistant interface with streaming responses, conversation branch history, code highlighting, and customized markdown renders, powered by Gemini LLM integration."
+    },
+    rw: {
+      title: "Ubutumwa bwa AI (AI Chat)",
+      description: "Porogaramu y'ikiganiro cya AI ikora ako kanya, igasubiza mu buryo bw'indashyikirwa, ifite amateka y'ibiganiro n'uburyo bunoze usesuye hifashishijwe Gemini API."
+    }
+  },
+  "Hospital Management System": {
+    en: {
+      title: "Hospital Management System",
+      description: "A highly secure electronic health record (EHR) portal incorporating animated interactive patient dashboards, real-time appointment schedulers, secure messaging channels, and billing engines."
+    },
+    rw: {
+      title: "Sisitemu Y'ibitaro (Hospital CMS)",
+      description: "Uruhande rw'umutekano rwo gucunga ibitaro rurimo amadosiye y'abarwayi, gahunda zo kubonana na muganga, koherezanya ubutumwa n'uburyo bwo kwishyura."
+    }
+  },
+  "SaaS Streaming Platform": {
+    en: {
+      title: "SaaS Streaming Platform",
+      description: "A high-performance media delivery application utilizing HLS stream segmentation, content authorization checkpoints, customized custom video controls, and user analytics."
+    },
+    rw: {
+      title: "Urubuga rwa Filime n'Imiziki (Streaming)",
+      description: "Isakazamakuru ryihuta kandi rihanezeza rikoresha tekinoroji yo gushyira amashusho mu bice n'igenzura ry'abareba, ifite imiterere ya video inogeye ijisho."
+    }
+  },
+  "Universal Bus Booking System": {
+    en: {
+      title: "Universal Bus Booking System",
+      description: "A comprehensive transit network solution featuring physical seat reservation charts, interactive regional maps for tracking, dynamic discount tiers, and direct payment gateway webhooks."
+    },
+    rw: {
+      title: "Gukata Amatike y'Imodoka (Bus Booking)",
+      description: "Igikoresho cyo gukatiraho amashaje y'imodoka, gukurikirana imodoka kuri map, amaganya y'ibiciro ndetse no kwishyura ako kanya bikorwa mu buryo bworoshye."
+    }
+  },
+  "Decentralized Social Media App": {
+    en: {
+      title: "Decentralized Social Media App",
+      description: "A responsive next-generation community board offering microblogging options, decentralized state synchronization, lazy image lists, dark/light mode toggles, and rich media attachment feeds."
+    },
+    rw: {
+      title: "Mbuga Nkoranyambaga (Social Media)",
+      description: "Urubuga rw'itumanaho rugezweho, rufite uburyo bwo gusangiza ibitekerezo, kwandika amafoto, guhindura umwijima/umucyo, n'umutekano urizwe cyane."
+    }
+  }
+};
+
 export const Projects: React.FC = () => {
+  const { language, t } = useLanguage();
   const [filter, setFilter] = useState<"All" | "Featured">("All");
 
   const filteredProjects =
@@ -31,7 +86,7 @@ export const Projects: React.FC = () => {
               viewport={{ once: true }}
             >
               <FolderGit size={12} />
-              <span>CASE STUDIES</span>
+              <span>{t("projects.badge")}</span>
             </motion.div>
 
             <motion.h2
@@ -41,7 +96,7 @@ export const Projects: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              Recent Productions
+              {t("projects.title")}
             </motion.h2>
 
             <motion.p
@@ -51,7 +106,7 @@ export const Projects: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              A selection of engineering frameworks developed directly against client specifications, optimizing speeds, caching layers and interaction points.
+              {t("projects.desc")}
             </motion.p>
           </div>
 
@@ -65,7 +120,7 @@ export const Projects: React.FC = () => {
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              All Projects
+              {language === "en" ? "All Projects" : "Byose"}
             </button>
             <button
               onClick={() => setFilter("Featured")}
@@ -75,7 +130,7 @@ export const Projects: React.FC = () => {
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              Featured Only
+              {language === "en" ? "Featured Only" : "Iby'ingenzi Gusa"}
             </button>
           </div>
         </div>
@@ -87,6 +142,11 @@ export const Projects: React.FC = () => {
         >
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((p, index) => {
+              const localized = projectsTranslations[p.title]?.[language] || {
+                title: p.title,
+                description: p.description
+              };
+
               return (
                 <motion.div
                   key={p.id}
@@ -107,7 +167,7 @@ export const Projects: React.FC = () => {
                     {p.featured && (
                       <div className="absolute top-4 left-4 z-20 flex items-center space-x-1 px-2.5 py-1 rounded-full bg-indigo-600 text-white font-mono text-[10px] font-bold tracking-wide uppercase shadow">
                         <Sparkles size={10} />
-                        <span>Featured</span>
+                        <span>{language === "en" ? "Featured" : "Icy'ingenzi"}</span>
                       </div>
                     )}
 
@@ -141,12 +201,12 @@ export const Projects: React.FC = () => {
 
                     {/* Title */}
                     <h3 className="font-heading font-bold text-xl text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      {p.title}
+                      {localized.title}
                     </h3>
 
                     {/* Description */}
                     <p className="text-gray-500 dark:text-[#9ca3af] text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
-                      {p.description}
+                      {localized.description}
                     </p>
 
                     {/* Action buttons CTAs */}
@@ -158,10 +218,10 @@ export const Projects: React.FC = () => {
                         className="flex items-center space-x-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors interactive-hover cursor-pointer"
                         onClick={(e) => {
                           e.preventDefault();
-                          alert(`Launching interactive live sandbox preview for: ${p.title}`);
+                          alert(`Launching interactive live sandbox preview for: ${localized.title}`);
                         }}
                       >
-                        <span>Live Demo</span>
+                        <span>{language === "en" ? "Live Demo" : "Reba Imikorere"}</span>
                         <ExternalLink size={14} />
                       </a>
 
@@ -172,11 +232,11 @@ export const Projects: React.FC = () => {
                         className="flex items-center space-x-1.5 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors interactive-hover cursor-pointer"
                         onClick={(e) => {
                           e.preventDefault();
-                          alert(`Navigating to GitHub repository branch for: ${p.title}`);
+                          alert(`Navigating to GitHub repository branch for: ${localized.title}`);
                         }}
                       >
                         <Github size={14} />
-                        <span>Source</span>
+                        <span>{language === "en" ? "Source" : "Code Inyuma"}</span>
                       </a>
                     </div>
                   </div>

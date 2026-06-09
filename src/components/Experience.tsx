@@ -5,10 +5,52 @@
 
 import React from "react";
 import { EXPERIENCES } from "../data";
+import { useLanguage } from "./LanguageContext";
 import { Sparkles, Calendar, Briefcase } from "lucide-react";
 import { motion } from "motion/react";
 
+const experiencesTranslations: Record<string, Record<"en" | "rw", { role: string; description: string[] }>> = {
+  "Lead Software Architect": {
+    en: {
+      role: "Lead Software Architect",
+      description: [
+        "Architected real-time dashboard microfrontends powering analytics for over 45k monthly active merchants.",
+        "Re-engineered data synchronization mechanics resulting in an 85% drop in WebSocket server latency.",
+        "Championed the developer tooling initiative, establishing rigid TypeScript templates and CSS guidelines."
+      ]
+    },
+    rw: {
+      role: "Umuyobozi w'Inyubako ya Software",
+      description: [
+        "Nubatse imbata n'amapaji ya dashboard asangiza amakuru ku bakiriya basaga 45,000 ku kwezi.",
+        "Nongeye gukora neza uburyo bwo guhuza amakuru bituma websocket igabanya gutinda ku gipimo cya 85%.",
+        "Nayoboye gahunda y'ibikoresho by'abubatsi benshi, nshyiraho inyandikorugero zikomeye za TypeScript na CSS."
+      ]
+    }
+  },
+  "Senior Full-Stack Engineer": {
+    en: {
+      role: "Senior Full-Stack Engineer",
+      description: [
+        "Engineered an dynamic AI-driven customer profiling engine syncing with multi-layered Node.js task queues.",
+        "Optimized database relational indexing parameters on MySQL architectures to improve API throughput rate by 40%.",
+        "Mentored 6 junior/mid-level technicians on clean architectural patterns and responsive UI guidelines."
+      ]
+    },
+    rw: {
+      role: "Umunyakoranyabuhanga Mukuru (Full-Stack)",
+      description: [
+        "Nakoze moteri ya AI isesengura imyitwarire y'abakiriya ifatanye n'imirongo ya Node.js.",
+        "Nongeye gukora index muri databases za MySQL ngo API yihute ku gipimo cya 40%.",
+        "Nafashije abubatsi 6 bato mu gukora code isukuye no gushushanya amapaji meza afite uburyo bwa responsive."
+      ]
+    }
+  }
+};
+
 export const Experience: React.FC = () => {
+  const { language, t } = useLanguage();
+
   return (
     <section
       id="experience"
@@ -24,7 +66,7 @@ export const Experience: React.FC = () => {
             viewport={{ once: true }}
           >
             <Sparkles size={12} />
-            <span>EMPLOYMENT HISTORY</span>
+            <span>{t("experience.badge")}</span>
           </motion.div>
 
           <motion.h2
@@ -34,7 +76,7 @@ export const Experience: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Professional Experience
+            {t("experience.title")}
           </motion.h2>
           <motion.p
             className="text-gray-500 dark:text-gray-400 max-w-lg text-sm md:text-base"
@@ -43,19 +85,23 @@ export const Experience: React.FC = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            A timeline of building production code, architecting reliable SaaS modules, and leading diverse development divisions.
+            {t("experience.desc")}
           </motion.p>
         </div>
 
         {/* Timeline Vector Framework */}
         <div className="relative mt-12 max-w-4xl mx-auto">
           {/* Vertical central connector line */}
-          <div className="absolute top-0 bottom-0 left-1/2 -ml-0.5 w-[2px] bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 md:block hidden opacity-60" />
+          <div className="absolute top-0 bottom-0 left-1/2 -ml-0.5 w-[2px] bg-gradient-to-b from-indigo-505 via-purple-500 to-pink-500 md:block hidden opacity-60" />
           <div className="absolute top-0 bottom-0 left-4 -ml-0.5 w-[2px] bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 md:hidden block opacity-60" />
 
           <div className="space-y-12">
             {EXPERIENCES.map((exp, index) => {
               const isEven = index % 2 === 0;
+              const localized = experiencesTranslations[exp.role]?.[language] || {
+                role: exp.role,
+                description: exp.description
+              };
 
               return (
                 <div
@@ -96,7 +142,7 @@ export const Experience: React.FC = () => {
                       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                         <div className="space-y-1">
                           <h3 className="font-heading font-extrabold text-lg md:text-xl text-gray-900 dark:text-white leading-tight">
-                            {exp.role}
+                            {localized.role}
                           </h3>
                           <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 font-mono">
                             {exp.company}
@@ -111,7 +157,7 @@ export const Experience: React.FC = () => {
 
                       {/* Task points lists */}
                       <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300 list-none pl-0">
-                        {exp.description.map((desc, i) => (
+                        {localized.description.map((desc, i) => (
                           <li key={i} className="flex items-start space-x-2.5 leading-relaxed text-left">
                             <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-500 dark:bg-indigo-400" />
                             <span>{desc}</span>
